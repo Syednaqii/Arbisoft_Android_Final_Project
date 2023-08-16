@@ -6,7 +6,7 @@
     app:startDestination="@id/movieFragment">
     <fragment
         android:id="@+id/movieFragment"
-        android:name="com.example.movieflix.MovieFragment"
+        android:name="com.example.movieflix.ui.fragments.MovieFragment"
         android:label="MovieFragment" >
         <action
             android:id="@+id/action_movieFragment_to_movieDescFragment"
@@ -14,9 +14,9 @@
     </fragment>
     <fragment
         android:id="@+id/movieDescFragment"
-        android:name="com.example.movieflix.MovieDescFragment"
+        android:name="com.example.movieflix.ui.fragments.MovieDetailFragment"
         android:label="fragment_movie_desc"
-        tools:layout="@layout/fragment_movie_desc" >
+        tools:layout="@layout/fragment_movie_detail" >
         <action
             android:id="@+id/action_movieDescFragment_to_movieFragment"
             app:destination="@id/movieFragment" />

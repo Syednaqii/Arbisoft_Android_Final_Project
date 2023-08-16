@@ -1,4 +1,4 @@
-package com.example.movieflix.models
+package com.example.movieflix.utils
 
 import android.view.animation.Animation
 import android.view.animation.ScaleAnimation
@@ -15,3 +15,4 @@ class Animations {
 
     }
 }
+

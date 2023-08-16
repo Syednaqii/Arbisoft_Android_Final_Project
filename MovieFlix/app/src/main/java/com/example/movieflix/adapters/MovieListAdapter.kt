@@ -8,6 +8,7 @@ import androidx.databinding.ObservableInt
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.movieflix.utils.Constants
 import com.example.movieflix.R
 import com.example.movieflix.models.Movie
 import com.example.movieflix.databinding.LayoutRecyclerViewBinding
@@ -16,8 +17,8 @@ import com.squareup.picasso.Picasso
 
 class MovieListAdapter(
     val onMovieSelected: (Movie)->Unit,
-    val onMovieSelectedDelete: (List<Movie>)->Unit
-)  : ListAdapter<Movie, MovieListAdapter.ViewHolder>(ImageDiffCallBack())
+    val dialogueOnMovieSelectedDelete: (List<Movie>)->Unit
+)  : ListAdapter<Movie, MovieListAdapter.ViewHolder>(MovieDiffCallBack())
 {
 
     private var dataList :MutableList<Movie> = mutableListOf()
@@ -38,23 +39,17 @@ class MovieListAdapter(
             LayoutRecyclerViewBinding.inflate(layoutInflater,parent,false)
         )
     }
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        when(holder)
-        {
-            is ViewHolder ->
-            {
-                holder.bind(dataList[position])
-            }
-        }
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int)
+    {
+        holder.bind(dataList[position])
     }
 
     inner class ViewHolder(private var binding: LayoutRecyclerViewBinding) : RecyclerView.ViewHolder(binding.root)
     {
-        private val baseUrl="https://image.tmdb.org/t/p/w500"
-
         fun bind(movie: Movie)
         {
-            val finalPath = Uri.parse(baseUrl).buildUpon().appendEncodedPath(movie.poster_path).build().toString()
+            val finalPath = Uri.parse(Constants.BASE_IMAGE_URL).buildUpon().appendEncodedPath(movie.poster_path).build().toString()
             Picasso.get().load(finalPath)
                 .placeholder(R.drawable.nullable).error(R.drawable.nullable).into(binding!!.poster);
             binding!!.rating.text=convertRatingToStar(movie.vote_average)
@@ -67,11 +62,11 @@ class MovieListAdapter(
             }
             binding!!.poster.setOnLongClickListener {
                 dataList.remove(movie)
-                onMovieSelectedDelete.invoke(dataList)
+                dialogueOnMovieSelectedDelete.invoke(dataList)
                 true
             }
-
         }
+
         private fun convertRatingToStar(rating: Double): String
         {
             val maxRating = 10
@@ -95,26 +90,25 @@ class MovieListAdapter(
             }
             return starBuilder.toString()
         }
-
     }
 
-
-    override fun getItemCount(): Int {
+    override fun getItemCount(): Int
+    {
         return dataList.size
     }
 
-    class ImageDiffCallBack:DiffUtil.ItemCallback<Movie>()
+    class MovieDiffCallBack:DiffUtil.ItemCallback<Movie>()
     {
-        override fun areItemsTheSame(oldItem: Movie, newItem: Movie): Boolean {
+        override fun areItemsTheSame(oldItem: Movie, newItem: Movie): Boolean
+        {
             return oldItem.id==newItem.id
         }
 
-        override fun areContentsTheSame(oldItem: Movie, newItem: Movie): Boolean {
+        override fun areContentsTheSame(oldItem: Movie, newItem: Movie): Boolean
+        {
             return oldItem==newItem
         }
     }
-
-
-
 }
+
 

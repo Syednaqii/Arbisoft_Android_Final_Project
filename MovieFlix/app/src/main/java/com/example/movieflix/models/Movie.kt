@@ -1,6 +1,5 @@
 package com.example.movieflix.models
 
-import androidx.room.Ignore
 import com.google.gson.annotations.SerializedName
 
 data class Movie(
@@ -13,11 +12,13 @@ data class Movie(
     @SerializedName("title") val title: String,
     @SerializedName("vote_average") val vote_average: Double,
 )
+
 data class ApiResponse(
     @SerializedName("page") val page:Int,
     @SerializedName("results") val apiInfo : ArrayList<Movie>
-
 )
+
+
 
 
 
