@@ -11,7 +11,8 @@ class PopularMovieApiClient
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
-    fun getApiService(): PopularMovieAPIInterface {
+    fun getApiService(): PopularMovieAPIInterface
+    {
         return retrofit.create(PopularMovieAPIInterface::class.java)
     }
 }
