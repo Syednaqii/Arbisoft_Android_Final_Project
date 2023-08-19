@@ -6,13 +6,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.movieflix.dependencies.DependencyContainer
-import com.example.movieflix.models.ApiCalls
 import com.example.movieflix.models.ApiResponse
-import com.example.movieflix.models.DetailMovieApIInterface
-import com.example.movieflix.models.DetailMovieApiClient
 import com.example.movieflix.models.Movie
-import com.example.movieflix.models.PopularMovieAPIInterface
-import com.example.movieflix.models.PopularMovieApiClient
 import kotlinx.coroutines.launch
 
 class MyViewModel : ViewModel()
@@ -26,8 +21,6 @@ class MyViewModel : ViewModel()
     private var _popMovieIdData = MutableLiveData<Int>()
     val popMovieIdData: MutableLiveData<Int> = _popMovieIdData
 
-    private val dependency = DependencyContainer()
-
     fun setPopMovieId(id:Int)
     {
         _popMovieIdData.value=id
@@ -40,8 +33,9 @@ class MyViewModel : ViewModel()
 
     fun popularMoviesApiCall()
     {
+        val dependency = DependencyContainer()
         viewModelScope.launch {
-            val data: ApiResponse? = dependency.apiCalls.apiCallPopular(dependency.apiServicePop)
+            val data: ApiResponse? = dependency.remoteDataSource.apiCallPopular(dependency.interfacePop)
             val popularMovies : List<Movie> = data?.apiInfo ?: emptyList()
             _movieDataList.value=popularMovies
         }
@@ -49,10 +43,10 @@ class MyViewModel : ViewModel()
 
     fun detailMoviesApiCall(movieId : Int )
     {
+        val dependency = DependencyContainer()
         viewModelScope.launch {
-            val movieDetail: Movie? = dependency.apiCalls.apiCallDetail(dependency.apiServiceDet,movieId)
+            val movieDetail: Movie? = dependency.remoteDataSource.apiCallDetail(dependency.interfaceDet,movieId)
             _movieData.value=movieDetail
         }
     }
 }
-

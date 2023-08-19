@@ -1,19 +1,15 @@
 package com.example.movieflix.dependencies
 
+import com.example.movieflix.models.RemoteDataSource
+import com.example.movieflix.models.RetrofitServices
+import com.example.movieflix.utils.Constants
 
-import com.example.movieflix.models.ApiCalls
-import com.example.movieflix.models.DetailMovieApIInterface
-import com.example.movieflix.models.DetailMovieApiClient
-import com.example.movieflix.models.PopularMovieAPIInterface
-import com.example.movieflix.models.PopularMovieApiClient
+class DependencyContainer {
+    private val retrofitPopular = RetrofitServices(Constants.POP_API)
+    val interfacePop: RemoteDataSource.MovieService = retrofitPopular.getApiService()
 
-class DependencyContainer
-{
-    //Popular Movies Api
-    private val apiClientPop = PopularMovieApiClient()
-    val apiServicePop: PopularMovieAPIInterface = apiClientPop.getApiService()
-    //Detail Movie Api
-    private val apiClientDet = DetailMovieApiClient()
-    val apiServiceDet : DetailMovieApIInterface = apiClientDet.getApiServiceDetail()
-    val apiCalls : ApiCalls = ApiCalls()
+    private val retrofitDetailed = RetrofitServices(Constants.DETAIL_API)
+    val interfaceDet: RemoteDataSource.MovieService = retrofitDetailed.getApiService()
+
+    val remoteDataSource = RemoteDataSource()
 }

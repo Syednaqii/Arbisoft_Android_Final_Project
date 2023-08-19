@@ -17,8 +17,3 @@ data class ApiResponse(
     @SerializedName("page") val page:Int,
     @SerializedName("results") val apiInfo : ArrayList<Movie>
 )
-
-
-
-
-

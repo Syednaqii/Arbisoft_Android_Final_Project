@@ -118,7 +118,3 @@ class SplashActivity : AppCompatActivity()
         _binding = null
     }
 }
-
-
-
-

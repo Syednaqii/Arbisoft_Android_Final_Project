@@ -14,4 +14,3 @@ class Animations
         return scaleAnimation
     }
 }
-

@@ -91,5 +91,3 @@ class MovieFragment : Fragment()
             .show()
     }
 }
-
-
