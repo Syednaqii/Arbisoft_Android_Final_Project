@@ -4,6 +4,8 @@ package com.example.movieflix.adapters
 import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import androidx.databinding.ObservableInt
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -18,16 +20,14 @@ import com.squareup.picasso.Picasso
 class MovieListAdapter(
     val onMovieSelected: (Movie) -> Unit,
     val dialogueOnMovieSelectedDelete: (List<Movie>) -> Unit
-) : ListAdapter<Movie, MovieListAdapter.ViewHolder>(MovieDiffCallBack()) {
+) : Filterable, ListAdapter<Movie, MovieListAdapter.ViewHolder>(MovieDiffCallBack()) {
 
     private var dataList: MutableList<Movie> = mutableListOf()
-    private var listSize = ObservableInt()
 
     fun setList(list: MutableList<Movie>) {
         dataList.clear()
         dataList.addAll(list)
-        listSize.set(list.size)
-        notifyItemRangeChanged(0, list.size)
+        submitList(dataList)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -39,7 +39,7 @@ class MovieListAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(dataList[position])
+        holder.bind(getItem(position))
     }
 
     inner class ViewHolder(private var binding: LayoutRecyclerViewBinding) :
@@ -86,10 +86,6 @@ class MovieListAdapter(
         }
     }
 
-    override fun getItemCount(): Int {
-        return dataList.size
-    }
-
     class MovieDiffCallBack : DiffUtil.ItemCallback<Movie>() {
         override fun areItemsTheSame(oldItem: Movie, newItem: Movie): Boolean {
             return oldItem.id == newItem.id
@@ -97,6 +93,28 @@ class MovieListAdapter(
 
         override fun areContentsTheSame(oldItem: Movie, newItem: Movie): Boolean {
             return oldItem == newItem
+        }
+    }
+
+    override fun getFilter(): Filter {
+        return object : Filter() {
+            override fun performFiltering(enteredString: CharSequence?): FilterResults {
+                val filteredList: List<Movie> = dataList.filter {
+                    it.title.contains(enteredString!!, true)
+                }
+                val filterResults = FilterResults()
+                filterResults.values = filteredList
+                return filterResults
+            }
+
+            override fun publishResults(enteredString: CharSequence?, result: FilterResults?) {
+                val filteredList = (if (result?.values == null)
+                    emptyList()
+                else
+                    result.values as List<Movie>
+                        )
+                submitList(filteredList.toMutableList())
+            }
         }
     }
 }

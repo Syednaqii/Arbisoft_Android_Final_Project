@@ -10,5 +10,6 @@
     <string name="fragment1_dialogue_accept">Yes</string>
     <string name="fragment1_dialogue_reject">No</string>
     <string name="fragment1_dialogue">You sure you want to delete this movie?</string>
+    <string name="search">Search Movie ...</string>
 
 </resources>
