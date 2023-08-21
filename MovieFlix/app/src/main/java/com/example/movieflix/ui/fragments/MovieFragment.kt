@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.addCallback
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -52,6 +53,9 @@ class MovieFragment : Fragment()
             binding!!.movieRecyclerView.layoutManager = LinearLayoutManager(requireContext())
             binding!!.movieRecyclerView.adapter = adapter
             adapter.setList(popMovies.toMutableList())
+        }
+        binding!!.search.doOnTextChanged { text, _, _, _ ->
+            adapter.filter.filter(text)
         }
        exitAppDialogue()
     }
