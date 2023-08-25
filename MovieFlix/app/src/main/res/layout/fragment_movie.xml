@@ -16,7 +16,7 @@
             android:id="@+id/linearLayout2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@color/grey"
+            android:background="@color/light_blue"
             android:orientation="vertical"
             android:padding="16dp"
             app:layout_constraintBottom_toTopOf="@id/search"
@@ -35,7 +35,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@android:color/darker_gray" />
+                android:background="@color/white" />
 
         </LinearLayout>
 
@@ -43,8 +43,7 @@
             android:id="@+id/search"
             android:layout_width="match_parent"
             android:layout_height="55dp"
-            android:layout_marginTop="5dp"
-            android:background="@color/grey"
+            android:background="@color/light_blue"
             android:textColorHint="@color/white"
             android:textColor="@color/white"
             android:hint="@string/search"
